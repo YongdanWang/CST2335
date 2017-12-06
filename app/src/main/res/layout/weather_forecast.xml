@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/tempImageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/mimnTempView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Min temperature"
+        android:textSize="25sp"
+        app:layout_constraintTop_toBottomOf="@+id/tempImageView" />
+
+    <TextView
+        android:id="@+id/maxTempView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Max temperature"
+        android:textSize="25sp"
+        app:layout_constraintTop_toBottomOf="@+id/mimnTempView" />
+
+    <TextView
+        android:id="@+id/currentTempView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current temperature"
+        android:textSize="25sp"
+        app:layout_constraintTop_toBottomOf="@+id/maxTempView" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/currentTempView" />
+
+</android.support.constraint.ConstraintLayout>

@@ -42,7 +42,7 @@ public class StartActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Log.i(ACTIVITY_NAME, "User clicked weather forecast");
-                Intent intent = new Intent(StartActivity.this, ChatWindow.class);
+                Intent intent = new Intent(StartActivity.this, WeatherForecast.class);
                 startActivityForResult(intent,10);
             }
         });

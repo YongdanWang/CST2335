@@ -7,6 +7,7 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -25,6 +26,7 @@
         </activity>
         <activity android:name=".ListItemsActivity"></activity>
         <activity android:name=".ChatWindow"></activity>
+        <activity android:name=".WeatherForecast"></activity>
     </application>
 
 </manifest>
