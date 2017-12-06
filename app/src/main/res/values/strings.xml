@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">lab1</string>
+    <string name="Hello_message">Hello World</string>
+    <string name="ButtonText">I\’m a button</string>
+    <string name="TextViewText">Login</string>
+    <string name="TextViewText2">Password</string>
+    <string name="dialog_message">Do you want to finish the activie?</string>
+    <string name="dialog_title">Choose</string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="chatButtonText">Start Chat</string>
+    <string name="sendButtonText">Send</string>
+    <string name="weatherButtonText">Weather</string>
+</resources>
+

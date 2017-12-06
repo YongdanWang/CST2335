@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources> <string name="app_name">lab1</string>
+    <string name="Hello_message">世界你好</string>
+    <string name="ButtonText">我是按钮</string>
+    <string name="chatButtonText">开始对话</string>
+    <string name="sendButtonText">发送</string>
+</resources>
