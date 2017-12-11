@@ -84,13 +84,13 @@ public class WeatherForecast extends Activity {
 
                     if (parser.getEventType() == XmlPullParser.START_TAG ) {
                         if (parser.getName().equalsIgnoreCase("temperature")) {
-                            currentTemp = parser.getAttributeValue(null, "value") + "°C";
+                            currentTemp = "Current temperature:  "+parser.getAttributeValue(null, "value") + "°C";
                             this.publishProgress(25);
                             Thread.sleep(1000);
-                            minTemp = parser.getAttributeValue(null, "min") + "°C";
+                            minTemp = "Minimum temperature:  " +parser.getAttributeValue(null, "min") + "°C";
                             this.publishProgress(50);
                             Thread.sleep(1000);
-                            maxTemp = parser.getAttributeValue(null, "max") + "°C";
+                            maxTemp = "Maximum temperature:  "+parser.getAttributeValue(null, "max") + "°C";
                             this.publishProgress(75);
                             Thread.sleep(1000);
 
