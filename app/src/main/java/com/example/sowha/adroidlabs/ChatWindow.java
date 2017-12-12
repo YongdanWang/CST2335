@@ -1,8 +1,11 @@
 package com.example.sowha.adroidlabs;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -10,11 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sowha.adroidlabs.android.database.sqlite.ChatDatabaseHelper;
 
@@ -28,6 +34,9 @@ public class ChatWindow extends Activity {
     ArrayList<String> messages = new ArrayList<String>();
     ChatDatabaseHelper dbHelper;
     SQLiteDatabase db;
+    FrameLayout chatFrameLayout;
+    boolean isTablet=false;
+    Cursor c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +47,21 @@ public class ChatWindow extends Activity {
         chatText=(EditText)findViewById(R.id.textbox);
         chatBox=(ListView)findViewById(R.id.chatBox);
 
+        chatFrameLayout = (FrameLayout) findViewById(R.id.chatFrameLayout);
+
+        if(chatFrameLayout == null){
+            isTablet = false;
+            Log.i(ACTIVITY_NAME, "Using Phone layout.");
+        } else {
+            isTablet = true;
+            Log.i(ACTIVITY_NAME, "Using Tablet layout.");
+
+        }
+
         dbHelper = new ChatDatabaseHelper(this) ;
         db = dbHelper.getWritableDatabase();
 
-        Cursor c = db.rawQuery("select * from " + dbHelper.TABLE_NAME,null);
+        c = db.rawQuery("select * from " + dbHelper.TABLE_NAME,null);
         c.moveToFirst();
         while(!c.isAfterLast()) {
             Log.i(ACTIVITY_NAME, "SQL MESSAGE " + c.getString(c.getColumnIndex(dbHelper.KEY_MESSAGE)));
@@ -69,6 +89,45 @@ public class ChatWindow extends Activity {
                 chatText.setText("");
             }
         });
+
+        chatBox.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+
+
+                String message = messageAdapter.getItem(position);
+                long messageID =  messageAdapter.getItemId(position);
+                Log.i(ACTIVITY_NAME, "Cursor’s  column count =" +message +  messageID);
+
+                Bundle bundle = new Bundle();
+                bundle.putLong("id",messageID);
+                bundle.putString("message", message);
+                bundle.putBoolean("isTablet", isTablet);
+
+                if(isTablet == true){
+                    MessageFragment messageFragment = new MessageFragment();
+
+                    messageFragment.setArguments(bundle);
+                    FragmentManager fragmentManager =getFragmentManager();
+
+                    if (fragmentManager.getBackStackEntryCount() > 0) {
+                        FragmentManager.BackStackEntry first = fragmentManager.getBackStackEntryAt(0);
+                        fragmentManager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    }
+
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.add(R.id.tabletFrameLayout, messageFragment).addToBackStack(null).commit();
+                }
+                else{
+                    Intent intent = new Intent(ChatWindow.this, MessageDetails.class);
+                    intent.putExtra("bundle", bundle);
+                    startActivityForResult(intent,10);
+                }
+
+
+            }
+        });
     }
 
     public void onDestroy() {
@@ -83,6 +142,11 @@ public class ChatWindow extends Activity {
 
         public int getCount(){
             return messages.size();
+        }
+
+        public long getItemId (int position)  {
+            c.moveToPosition(position);
+            return c.getLong(c.getColumnIndex(ChatDatabaseHelper.KEY_ID));
         }
 
         public String getItem (int position) {
