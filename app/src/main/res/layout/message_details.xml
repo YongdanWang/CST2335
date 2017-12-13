@@ -4,6 +4,6 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.sowha.adroidlabs.MessageDetails"
-    android:id="@+id/phoneFrameLayout">
+    android:id="@+id/portraitFrameLayout">
 
 </android.support.constraint.ConstraintLayout>

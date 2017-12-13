@@ -26,6 +26,8 @@ import com.example.sowha.adroidlabs.android.database.sqlite.ChatDatabaseHelper;
 
 import java.util.ArrayList;
 
+import static com.example.sowha.adroidlabs.android.database.sqlite.ChatDatabaseHelper.TABLE_NAME;
+
 public class ChatWindow extends Activity {
     protected static final String ACTIVITY_NAME = "ChatActivity";
     Button sendButton;
@@ -35,8 +37,9 @@ public class ChatWindow extends Activity {
     ChatDatabaseHelper dbHelper;
     SQLiteDatabase db;
     FrameLayout chatFrameLayout;
-    boolean isTablet=false;
+    boolean isLandscape=false;
     Cursor c;
+    int requestCode = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,30 +53,16 @@ public class ChatWindow extends Activity {
         chatFrameLayout = (FrameLayout) findViewById(R.id.chatFrameLayout);
 
         if(chatFrameLayout == null){
-            isTablet = false;
+            isLandscape = false;
             Log.i(ACTIVITY_NAME, "Using Phone layout.");
         } else {
-            isTablet = true;
+            isLandscape = true;
             Log.i(ACTIVITY_NAME, "Using Tablet layout.");
 
         }
 
         dbHelper = new ChatDatabaseHelper(this) ;
         db = dbHelper.getWritableDatabase();
-
-        c = db.rawQuery("select * from " + dbHelper.TABLE_NAME,null);
-        c.moveToFirst();
-        while(!c.isAfterLast()) {
-            Log.i(ACTIVITY_NAME, "SQL MESSAGE " + c.getString(c.getColumnIndex(dbHelper.KEY_MESSAGE)));
-            messages.add(c.getString(1));
-            c.moveToNext();
-        }
-
-        Log.i(ACTIVITY_NAME, "Cursor’s  column count =" + c.getColumnCount() );
-
-        for (int i=0; i< c.getColumnCount(); i++){
-            System.out.println(c.getColumnName(i));
-        }
 
         final ChatAdapter messageAdapter =new ChatAdapter( this );
         chatBox.setAdapter (messageAdapter);
@@ -85,8 +74,12 @@ public class ChatWindow extends Activity {
                 messages.add(chatText.getText().toString());
                 messageAdapter.notifyDataSetChanged(); //this restarts the process of getCount()/getView();
                 initialValues.put(dbHelper.KEY_MESSAGE,chatText.getText().toString());
-                db.insert(dbHelper.TABLE_NAME,null,initialValues);
+                db.insert(TABLE_NAME,null,initialValues);
                 chatText.setText("");
+
+             /*   finish();
+                Intent intent = getIntent();
+                startActivity(intent);*/
             }
         });
 
@@ -103,9 +96,9 @@ public class ChatWindow extends Activity {
                 Bundle bundle = new Bundle();
                 bundle.putLong("id",messageID);
                 bundle.putString("message", message);
-                bundle.putBoolean("isTablet", isTablet);
+                bundle.putBoolean("isLandscape", isLandscape);
 
-                if(isTablet == true){
+                if(isLandscape == true){
                     MessageFragment messageFragment = new MessageFragment();
 
                     messageFragment.setArguments(bundle);
@@ -117,7 +110,7 @@ public class ChatWindow extends Activity {
                     }
 
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.add(R.id.tabletFrameLayout, messageFragment).addToBackStack(null).commit();
+                    fragmentTransaction.add(R.id.chatFrameLayout, messageFragment).addToBackStack(null).commit();
                 }
                 else{
                     Intent intent = new Intent(ChatWindow.this, MessageDetails.class);
@@ -128,6 +121,20 @@ public class ChatWindow extends Activity {
 
             }
         });
+
+        c = db.rawQuery("select * from " + TABLE_NAME,null);
+        c.moveToFirst();
+        while(!c.isAfterLast()) {
+            Log.i(ACTIVITY_NAME, "SQL MESSAGE " + c.getString(c.getColumnIndex(dbHelper.KEY_MESSAGE)));
+            messages.add(c.getString(1));
+            c.moveToNext();
+        }
+
+        Log.i(ACTIVITY_NAME, "Cursor’s  column count =" + c.getColumnCount() );
+
+        for (int i=0; i< c.getColumnCount(); i++){
+            System.out.println(c.getColumnName(i));
+        }
     }
 
     public void onDestroy() {
@@ -135,6 +142,19 @@ public class ChatWindow extends Activity {
         super.onDestroy();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10 && data != null) {
+            Long id = data.getLongExtra("id", -1);
+            db.delete(ChatDatabaseHelper.TABLE_NAME, ChatDatabaseHelper.KEY_ID + "=" + id, null);
+
+            finish();
+            Intent intent = getIntent();
+            startActivity(intent);
+        }
+    }
     private class ChatAdapter extends ArrayAdapter<String> {
         public ChatAdapter(Context ctx) {
             super(ctx, 0);

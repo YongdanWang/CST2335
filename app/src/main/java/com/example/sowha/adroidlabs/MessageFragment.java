@@ -32,7 +32,7 @@ public class MessageFragment extends Fragment {
         Bundle bundle = this.getArguments();
         final long id = bundle.getLong("id");
         String msg = bundle.getString("message");
-        final boolean isTablet = bundle.getBoolean("isTablet");
+        final boolean isLandscape = bundle.getBoolean("isLandscape");
         TextView idView = view.findViewById(R.id.fragmentId);
         idView.setText(""+id);
         TextView msgView = view.findViewById(R.id.fragmentMsg);
@@ -41,16 +41,16 @@ public class MessageFragment extends Fragment {
         Button del = view.findViewById(R.id.deleteButton);
         del.setOnClickListener(new View.OnClickListener() {
             public void onClick(View var1) {
-                if (isTablet) {
+                if (isLandscape) {
                     writeableDB.delete(ChatDatabaseHelper.TABLE_NAME, ChatDatabaseHelper.KEY_ID + "=" + id, null);
                     getActivity().finish();
                     Intent intent = getActivity().getIntent();
                     startActivity(intent);
                 }
                 else {
-                    Intent ret = new Intent();
-                    ret.putExtra("id", id);
-                    getActivity().setResult(Activity.RESULT_OK, ret);
+                    Intent data = new Intent();
+                    data.putExtra("id", id);
+                    getActivity().setResult(Activity.RESULT_OK, data);
                     getActivity().finish();
                 }
             }

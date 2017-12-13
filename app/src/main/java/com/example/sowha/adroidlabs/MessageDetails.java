@@ -27,6 +27,6 @@ public class MessageDetails extends Activity {
             fragmentManager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.phoneFrameLayout, messageFragment).addToBackStack(null).commit();
+        fragmentTransaction.replace(R.id.portraitFrameLayout, messageFragment).addToBackStack(null).commit();
     }
 }

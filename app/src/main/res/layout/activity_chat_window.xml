@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.sowha.adroidlabs.ChatWindow"
-    android:id="@+id/tabletFrameLayout">
+    android:id="@+id/portraitFrameLayout">
 
     <ListView
         android:id="@+id/chatBox"
