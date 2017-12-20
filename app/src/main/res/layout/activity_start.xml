@@ -21,8 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ButtonText"
-        tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="5dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/helloworld"/>
@@ -32,8 +30,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/chatButtonText"
-        tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="53dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button"
@@ -44,11 +40,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/weatherButtonText"
-        tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="53dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chatButton"
+        />
+
+    <Button
+        android:id="@+id/menuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_activity_test_toolbar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weatherButton"
         />
 
 

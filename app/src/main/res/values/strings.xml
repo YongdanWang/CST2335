@@ -12,5 +12,7 @@
     <string name="sendButtonText">Send</string>
     <string name="weatherButtonText">Weather</string>
     <string name="deleteMessageButton">Delete this message</string>
+    <string name="title_activity_test_toolbar">TestToolbar</string>
+    <string name="about">About</string>
 </resources>
 
